@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "tavily": {
+      "type": "streamable-http",
+      "url": "https://mcp.tavily.com/mcp/",
+      "headers": { "Authorization": "Bearer REPLACE_TAVILY_API_KEY" }
+    },
+    "exa": {
+      "type": "streamable-http",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": { "Authorization": "Bearer REPLACE_EXA_API_KEY" }
+    },
+    "github": {
+      "type": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": { "Authorization": "Bearer REPLACE_GITHUB_TOKEN" }
+    },
+    "deepwiki": {
+      "type": "streamable-http",
+      "url": "https://mcp.deepwiki.com/mcp"
+    },
+    "papers": {
+      "type": "streamable-http",
+      "url": "https://latex-tools.online/mcp"
+    },
+    "sequential-thinking": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}

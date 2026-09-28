@@ -1,0 +1,74 @@
+# ─────────────────────────────────────────────────────────────
+# dsh-mcp-setup — 追加到 $DSH_HOME/profiles/web/cordis.patch.yml
+# 密钥来自环境变量, 明文不入仓库。改完完全退出并重启 DSH Desktop。
+# sequential-thinking 为强制启用项（默认挂载 + 自动重连）。
+# 如要「连不上就拒绝启动」, 把该行 failOnStartupError 改成 true。
+# ─────────────────────────────────────────────────────────────
+- insert:
+    - id: mcp-tavily
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: tavily
+        transport: streamable-http
+        url: https://mcp.tavily.com/mcp/
+        headers:
+          Authorization: !!js '`Bearer ${process.env.TAVILY_API_KEY}`'
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
+        reconnect: { enabled: true }
+
+    - id: mcp-exa
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: exa
+        transport: streamable-http
+        url: https://mcp.exa.ai/mcp
+        headers:
+          Authorization: !!js '`Bearer ${process.env.EXA_API_KEY}`'
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
+        reconnect: { enabled: true }
+
+    - id: mcp-github
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: github
+        transport: streamable-http
+        url: https://api.githubcopilot.com/mcp/
+        headers:
+          Authorization: !!js '`Bearer ${process.env.GITHUB_TOKEN}`'
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
+        reconnect: { enabled: true }
+
+    - id: mcp-deepwiki
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: deepwiki
+        transport: streamable-http
+        url: https://mcp.deepwiki.com/mcp
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
+        reconnect: { enabled: true }
+
+    - id: mcp-papers
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: papers
+        transport: streamable-http
+        url: https://latex-tools.online/mcp
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false
+        reconnect: { enabled: true }
+
+    # ── 强制启用：本地 stdio，需本机 PATH 内有 npx (Node >= 20) ──
+    - id: mcp-sequential-thinking
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: sequential-thinking
+        transport: stdio
+        command: npx
+        args: ['-y', '@modelcontextprotocol/server-sequential-thinking']
+        toolCallTimeoutMs: 60000
+        failOnStartupError: false   # 改成 true 则连不上就拒绝激活
+        reconnect: { enabled: true }
